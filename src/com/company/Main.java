@@ -46,6 +46,36 @@ public class Main extends JPanel {
         }
     }
 
+    private boolean[][] visited = new boolean[rows][cols];
+    private boolean[][] path = new boolean[rows][cols];
+
+    private boolean findPath(int r, int c) {
+        if (!inBounds(r, c) || maze[r][c] == 0 || visited[r][c])
+            return false;
+
+        visited[r][c] = true;
+
+        if (r == rows - 1 && c == cols - 1) {
+            path[r][c] = true;
+            return true;
+        }
+
+        int[] dr = {0, 0, -1, 1};
+        int[] dc = {-1, 1, 0, 0};
+
+        for (int i = 0; i < 4; i++) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+            if (findPath(nr, nc)) {
+                path[r][c] = true;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Recursive Maze Solver");
