@@ -127,14 +127,30 @@ public class Main extends JPanel {
     }
 
     public static void main(String[] args) {
-        String input = JOptionPane.showInputDialog("Enter maze size (e.g. 21 for 21x21):");
-        int size = 21;
-        try {
-            size = Integer.parseInt(input);
-            if (size < 5) size = 5;
-            if (size % 2 == 0) size++;  // Ensure odd size
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Invalid input. Using default size 21.");
+        int size = 21; // Default size
+        boolean validInput = false;
+
+        while (!validInput) {
+            String input = JOptionPane.showInputDialog("Enter maze size (odd number ≥ 5, e.g., 21 for 21x21):");
+            if (input == null) {
+                JOptionPane.showMessageDialog(null, "No input provided. Exiting.");
+                System.exit(0);
+            }
+
+            try {
+                size = Integer.parseInt(input.trim());
+                if (size < 5) {
+                    JOptionPane.showMessageDialog(null, "Size must be at least 5.");
+                } else {
+                    if (size % 2 == 0) {
+                        size++; // Make it odd
+                        JOptionPane.showMessageDialog(null, "Even number entered. Automatically increased to next odd number: " + size);
+                    }
+                    validInput = true;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a positive integer.");
+            }
         }
 
         final int finalSize = size;
@@ -147,4 +163,5 @@ public class Main extends JPanel {
             frame.setVisible(true);
         });
     }
+
 }
