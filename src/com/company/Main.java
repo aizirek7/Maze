@@ -72,15 +72,20 @@ public class Main extends JPanel {
             return true;
         }
 
-        int[] dr = {0, 0, -1, 1};
-        int[] dc = {-1, 1, 0, 0};
+        int[] dr = {0, 0, -2, 2};  // Move in steps of 2
+        int[] dc = {-2, 2, 0, 0};
 
         for (int i = 0; i < 4; i++) {
             int nr = r + dr[i];
             int nc = c + dc[i];
-            if (findPath(nr, nc)) {
-                path[r][c] = true;
-                return true;
+            int wallR = r + dr[i] / 2;
+            int wallC = c + dc[i] / 2;
+
+            if (inBounds(nr, nc) && maze[wallR][wallC] == 1 && maze[nr][nc] == 1 && !visited[nr][nc]) {
+                if (findPath(nr, nc)) {
+                    path[r][c] = true;
+                    return true;
+                }
             }
         }
 
@@ -122,28 +127,24 @@ public class Main extends JPanel {
     }
 
     public static void main(String[] args) {
-        // Prompt user for maze size
-        String input = JOptionPane.showInputDialog("Enter maze size (e.g. 20 for 20x20):");
-        int size = 20;
+        String input = JOptionPane.showInputDialog("Enter maze size (e.g. 21 for 21x21):");
+        int size = 21;
         try {
-            size = Math.max(10, Integer.parseInt(input));
+            size = Integer.parseInt(input);
+            if (size < 5) size = 5;
+            if (size % 2 == 0) size++;  // Ensure odd size
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Invalid input. Using default size 20.");
+            JOptionPane.showMessageDialog(null, "Invalid input. Using default size 21.");
         }
 
         final int finalSize = size;
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("Recursive Maze Solver");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.add(new Main(finalSize, finalSize));
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Recursive Maze Solver");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(new Main(finalSize, finalSize));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 }
-
-
-
