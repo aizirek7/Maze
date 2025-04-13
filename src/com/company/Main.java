@@ -89,8 +89,13 @@ public class Main extends JPanel {
                 g.fillRect(c * 25, r * 25, 25, 25);
             }
         }
-    }
 
+        g.setColor(Color.BLUE);
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                if (path[r][c])
+                    g.fillRect(c * 25, r * 25, 25, 25);
+    }
 
 
     public static void main(String[] args) {
