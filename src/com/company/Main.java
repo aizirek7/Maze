@@ -6,13 +6,22 @@ import java.util.Random;
 
 public class Main extends JPanel {
 
+    private static final int CELL_SIZE = 25;
+
     private int rows = 20;
     private int cols = 20;
+
     private int[][] maze = new int[rows][cols];
+    private boolean[][] visited = new boolean[rows][cols];
+    private boolean[][] path = new boolean[rows][cols];
+
+    private Point start = new Point(0, 0);
+    private Point end = new Point(rows - 1, cols - 1);
 
     public Main() {
         generateMaze(0, 0);
-        setPreferredSize(new Dimension(cols * 25, rows * 25));
+        findPath(start.x, start.y);
+        setPreferredSize(new Dimension(cols * CELL_SIZE, rows * CELL_SIZE));
     }
 
     private void generateMaze(int r, int c) {
@@ -32,10 +41,6 @@ public class Main extends JPanel {
         }
     }
 
-    private boolean inBounds(int r, int c) {
-        return r >= 0 && c >= 0 && r < rows && c < cols;
-    }
-
     private void shuffle(Integer[] array) {
         Random rand = new Random();
         for (int i = array.length - 1; i > 0; i--) {
@@ -46,8 +51,9 @@ public class Main extends JPanel {
         }
     }
 
-    private boolean[][] visited = new boolean[rows][cols];
-    private boolean[][] path = new boolean[rows][cols];
+    private boolean inBounds(int r, int c) {
+        return r >= 0 && c >= 0 && r < rows && c < cols;
+    }
 
     private boolean findPath(int r, int c) {
         if (!inBounds(r, c) || maze[r][c] == 0 || visited[r][c])
@@ -55,7 +61,7 @@ public class Main extends JPanel {
 
         visited[r][c] = true;
 
-        if (r == rows - 1 && c == cols - 1) {
+        if (r == end.x && c == end.y) {
             path[r][c] = true;
             return true;
         }
@@ -79,6 +85,7 @@ public class Main extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // Draw maze
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 if (maze[r][c] == 0) {
@@ -86,17 +93,27 @@ public class Main extends JPanel {
                 } else {
                     g.setColor(Color.WHITE);
                 }
-                g.fillRect(c * 25, r * 25, 25, 25);
+                g.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
 
+        // Draw path
         g.setColor(Color.BLUE);
-        for (int r = 0; r < rows; r++)
-            for (int c = 0; c < cols; c++)
-                if (path[r][c])
-                    g.fillRect(c * 25, r * 25, 25, 25);
-    }
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (path[r][c]) {
+                    g.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                }
+            }
+        }
 
+        // Draw start and end points
+        g.setColor(Color.GREEN); // Start point
+        g.fillRect(start.y * CELL_SIZE, start.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+        g.setColor(Color.RED); // End point
+        g.fillRect(end.y * CELL_SIZE, end.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
