@@ -8,17 +8,24 @@ public class Main extends JPanel {
 
     private static final int CELL_SIZE = 25;
 
-    private int rows = 20;
-    private int cols = 20;
+    private int rows;
+    private int cols;
 
-    private int[][] maze = new int[rows][cols];
-    private boolean[][] visited = new boolean[rows][cols];
-    private boolean[][] path = new boolean[rows][cols];
+    private int[][] maze;
+    private boolean[][] visited;
+    private boolean[][] path;
 
     private Point start = new Point(0, 0);
-    private Point end = new Point(rows - 1, cols - 1);
+    private Point end;
 
-    public Main() {
+    public Main(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.maze = new int[rows][cols];
+        this.visited = new boolean[rows][cols];
+        this.path = new boolean[rows][cols];
+        this.end = new Point(rows - 1, cols - 1);
+
         generateMaze(0, 0);
         findPath(start.x, start.y);
         setPreferredSize(new Dimension(cols * CELL_SIZE, rows * CELL_SIZE));
@@ -107,19 +114,29 @@ public class Main extends JPanel {
             }
         }
 
-        // Draw start and end points
-        g.setColor(Color.GREEN); // Start point
+        // Draw start (green) and end (red)
+        g.setColor(Color.GREEN);
         g.fillRect(start.y * CELL_SIZE, start.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
-        g.setColor(Color.RED); // End point
+        g.setColor(Color.RED);
         g.fillRect(end.y * CELL_SIZE, end.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
     public static void main(String[] args) {
+        // Prompt for size
+        String input = JOptionPane.showInputDialog("Enter maze size (e.g., 20 for 20x20):");
+        int size = 20;
+        try {
+            size = Math.max(10, Integer.parseInt(input)); // Minimum size = 10
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Invalid input. Using default size 20.");
+        }
+
+        final int finalSize = size;
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Recursive Maze Solver");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new Main());
+            frame.add(new Main(finalSize, finalSize));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
