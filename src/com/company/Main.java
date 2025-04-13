@@ -27,10 +27,11 @@ public class Main extends JPanel {
         this.end = new Point(rows - 1, cols - 1);
 
         generateMaze(0, 0);
-        findPath(start.x, start.y);
+        resetVisited(); // ← Add this line
+        findPath(start.x, start.y); // ← Add this line only for non-animated version
+
         setPreferredSize(new Dimension(cols * CELL_SIZE, rows * CELL_SIZE));
     }
-
     private void generateMaze(int r, int c) {
         maze[r][c] = 1;
         int[] dx = {0, 0, -1, 1};
@@ -47,6 +48,13 @@ public class Main extends JPanel {
             }
         }
     }
+
+    private void resetVisited() {
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                visited[i][j] = false;
+    }
+
 
     private void shuffle(Integer[] array) {
         Random rand = new Random();
