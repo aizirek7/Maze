@@ -1,55 +1,59 @@
+Here's a rewritten version of your `README.md` file. I've polished the formatting and added a few details to ensure clarity and organization:
 
 ---
 
-```markdown
 # 🧩 Recursive Maze Generator & Solver (Java + Swing)
 
-This Java application generates a **random maze** using recursive backtracking (DFS) and then solves it using a pathfinding algorithm. The maze and its solution are displayed using **Java Swing**.
+This Java application generates a **random maze** using **recursive backtracking (DFS)** and solves it using a pathfinding algorithm. The maze and its solution are displayed using **Java Swing**.
 
 ---
 
 ## 📸 Preview
 
-![Maze Screenshot](screenshots/sample-maze.png) <!-- Replace with your actual image path -->
+
+![image](https://github.com/user-attachments/assets/440f2571-a291-464d-814d-6632813ae297)
 
 ---
 
 ## 🚀 Features
 
-- Generates a random **perfect maze** (only one path between any two points).
-- Uses **Depth-First Search (DFS)** for both generation and solving.
-- Visualizes:
-  - Walls (`black`)
-  - Paths (`white`)
-  - Start point (`green`)
-  - End point (`red`)
-  - Solution path (`blue`)
-- Input validation for custom maze sizes.
+- Generates a **random perfect maze** (only one path between any two points).
+- Uses **Depth-First Search (DFS)** for both maze generation and solving.
+- Visualizes the maze with:
+  - **Walls**: `black`
+  - **Paths**: `white`
+  - **Start point**: `green`
+  - **End point**: `red`
+  - **Solution path**: `blue`
+- Includes **input validation** to ensure a custom maze size is odd and meets the minimum size requirement.
 
 ---
 
 ## 📥 Input
 
-The program prompts the user to enter the **maze size** on startup.
+When the program runs, it prompts the user to enter the **maze size**. 
 
-### 🔢 Requirements:
+### 🔢 Input Requirements:
 - **Minimum size**: `5`
-- **Must be an odd number** (even numbers are automatically rounded up)
+- **Must be an odd number** (even numbers are automatically rounded up to the next odd number)
 
-### ✅ Examples:
+### ✅ Examples of valid inputs:
 - `21` → valid
 - `20` → adjusted to `21` automatically
 - `3` → rejected (too small)
 - `abc` → rejected (not a number)
 
+- ![image](https://github.com/user-attachments/assets/936e784a-cba8-44eb-bce7-119c17241133)
+
+
 ---
 
 ## 📤 Output
 
-- A visual window displaying:
-  - The generated maze
-  - The **solution path** from the top-left corner to the bottom-right
-- Terminal logs only show error messages or prompts (UI is mostly graphical).
+- A graphical window displays:
+  - The generated **random maze**.
+  - The **solution path** from the top-left corner to the bottom-right.
+- The terminal/console will display error messages only; the main output is graphical.
 
 ---
 
@@ -61,7 +65,7 @@ The program prompts the user to enter the **maze size** on startup.
    cd maze-solver-java
    ```
 
-2. **Compile the program**:
+2. **Compile the Java file**:
    ```bash
    javac Main.java
    ```
@@ -71,46 +75,32 @@ The program prompts the user to enter the **maze size** on startup.
    java Main
    ```
 
-4. **Enter maze size** in the popup window.
+4. **Input the maze size** when prompted.
 
 ---
 
 ## 🛠 Dependencies
 
 - Java 8 or higher
-- No external libraries — uses only standard `javax.swing` and `java.awt`.
+- No external libraries — the project uses **Java Swing** and **Java AWT** for the GUI.
 
 ---
 
-## 📂 File Structure
-
-```
-.
-├── Main.java
-├── README.md
-└── screenshots/
-    └── sample-maze.png (optional - add your own)
-```
 
 ---
 
 ## 📌 Notes
 
-- Works best with square mazes like `21x21`, `31x31`, etc.
-- Maze generation is random on each run.
-
----
-
-## 📃 License
-
-This project is open-source and free to use under the MIT License.
+- The maze will always be a square grid.
+- The program works best with **odd-numbered sizes**, e.g., `21x21`, `31x31`, etc.
+- The maze is generated randomly each time the program is run.
+  
 
 ---
 
 ## 🙌 Acknowledgements
 
-- Maze generation logic inspired by classic DFS algorithms.
-- UI built with Java Swing for simplicity.
+- Maze generation algorithm based on **Depth-First Search (DFS)**.
+- **Java Swing** used for graphical display of the maze and solution.
 
-```
-
+---
